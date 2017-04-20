@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" href="../css/stylesheet.css">
+    <script type="text/javascript" src="../js/javascripts.js"></script>
+
+    <script>
+        //open inAppBrowser
+        function openBrowser(url) {
+
+            var target = '_blank';
+            var options = "location=yes"
+            var ref = cordova.InAppBrowser.open(url, target, options);
+
+            ref.addEventListener('loadstart', loadstartCallback);
+            ref.addEventListener('loadstop', loadstopCallback);
+            ref.addEventListener('loadloaderror', loaderrorCallback);
+            ref.addEventListener('exit', exitCallback);
+
+            function loadstartCallback(event) {
+                console.log('Loading started: ' + event.url)
+            }
+
+            function loadstopCallback(event) {
+                console.log('Loading finished: ' + event.url)
+            }
+
+            function loaderrorCallback(error) {
+                console.log('Loading error: ' + error.message)
+            }
+
+            function exitCallback() {
+                console.log('Browser is closed...')
+            }
+        }
+
+    </script>
+
+    <script>
+        // swipe functionality - should even work with a second menu on the left
+        $(document).on("pagecreate", "#page", function() {
+            $(document).on("swipeleft swiperight", "#page", function(e) {
+                if ($.mobile.activePage.jqmData("panel") !== "open") {
+                    if (e.type === "swipeleft") {
+                        $("#right-panel").panel("open");
+                    } else if (e.type === "swiperight") {
+                        $("#left-panel").panel("open");
+                    }
+                }
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+    <div data-role="page" id="page" data-url="page">
+        <div data-role="header" id="header" data-theme="b">
+
+            <h1>SteamHelper</h1>
+            <a href="#left-panel" data-icon="grid" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-nodisc-icon">Open left panel</a>
+        </div>
+        <!-- /header -->
+
+        <div data-role="main" class="ui-content">
+            <p>
+                <h2>Todo-List</h2>
+                <h3>Giveaway Notifications</h3>
+                <p>Think about a way of doing push notifications for gleam related giveaways.<br> -> is there any way to get the newest gleam giveaways automatically?<br> -> find a way of dynamically loading the newest giveaways<br> -> how to implement the push service on the smartphone<br></p>
+
+                <p>
+                    <h3>New Game-Bundle Notification</h3>
+                    ->Find out if theres a way of automatically getting a notification/info of the newest game-bundle releases on each site.<br> ->find a way how to implement the push notification</p>
+
+                <p>
+                    <h3>Save Keys</h3>
+                    -> it should be possible to store the keys from giveaways in the app storage</p>
+
+                <p>
+                    <h3>Donate Button</h3>
+                    -> There should be a button/field which should make it possible for the user to donate game keys to the app developer (as a way of support)</p>
+
+        </div>
+        <!-- main -->
+
+        <div data-role="panel" id="left-panel" data-theme="b">
+            <div data-role="collapsible" data-collapsed="true" data-inset="false">
+                <h2>Giveaways</h2>
+                <ul data-role="listview">
+                    <div data-role="collapsible" data-collapsed="true">
+                        <h3>mass Giveaways</h3>
+                        <p>Giveaways from Developers</p>
+                        <ul data-role="listview">
+                            <li><a href="#" onclick="openBrowser('https://gleam.io/7YzyS/galactichitman1')">Galactic Hitman</a></li>
+                            <li><a href="#">Gleam1</a></li>
+                            <li><a href="#">Gleam2</a></li>
+                            <li><a href="#">Gleam3</a></li>
+                        </ul>
+                    </div>
+                    <div data-role="collapsible" data-collapsed="true">
+                        <h3>User Giveaways</h3>
+                        <p>Giveaways from Users</p>
+                        <ul data-role="listview">
+                            <li><a href="#" onclick="openBrowser('https://www.indiegala.com/giveaways')">Indiegala</a></li>
+                            <li><a href="#" onclick="openBrowser('https://www.steamgifts.com/')">SteamGifts</a></li>
+                            <li><a href="#">Others</a></li>
+                        </ul>
+                    </div>
+                </ul>
+            </div>
+            <div data-role="collapsible" data-inset="false">
+                <h3>Game Bundles</h3>
+                <p>Here you can find the best Bundles</p>
+                <ul data-role="listview">
+                    <li><a href="#" onclick="openBrowser('https://www.indiegala.com/')">Indiegala</a></li>
+                    <li><a href="#" onclick="openBrowser('https://www.humblebundle.com/')">HumbleBundle</a></li>
+                    <li><a href="#" onclick="openBrowser('https://www.bundlestars.com/en/games?page=1&types=bundle')">Bundlestars</a></li>
+                    <li><a href="#" onclick="openBrowser('https://cubicbundle.com/bundles')">Cubicbundles</a></li>
+                </ul>
+            </div>
+
+            <div data-role="collapsible" data-collapsed="true" data-inset="false">
+                <h4>Steam Tools</h4>
+                <ul data-role="listview">
+                    <li><a href="#" onclick="openBrowser('http://www.steamtradematcher.com/')">TradeMatcher</a></li>
+                    <li><a href="#" onclick="openBrowser('http://steam.tools/cards/')">Cheapest Cards</a></li>
+                    <li><a href="#" onclick="openBrowser('http://steam.tools/itemvalue/')">Item-Value Sorter</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- panel -->
+    </div>
+    <!-- page -->
+    <script type="text/javascript" src="cordova.js"></script>
+</body>
+
+</html>
